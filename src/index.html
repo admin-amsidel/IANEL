@@ -1,0 +1,104 @@
+<!doctype html>
+<!-- Copyright (c) 2026 IANEL Technologies. All rights reserved. Designed and developed by IANEL Technologies. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>IANEL Technologies · Smart software that moves business forward</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="author" content="IANEL Technologies">
+  <meta name="description" content="IANEL Technologies builds an integrated ecosystem of cloud products: MARTIQ for retail, MOVIQ for logistics, PEOPIQ for HR and SERVIQ for service businesses.">
+  <meta name="theme-color" content="#0d0f14">
+  <meta property="og:title" content="IANEL Technologies">
+  <meta property="og:description" content="MARTIQ · MOVIQ · PEOPIQ · SERVIQ: one connected software ecosystem for retail, logistics, HR and services.">
+  <meta property="og:image" content="brand/ianel-logo.webp">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="brand/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap">
+  <link rel="preload" as="image" href="brand/loader-sprite.png">
+  <!-- Page loader: inline so it shows before the app downloads; App hides it (see app.ts).
+       Same IANEL line-cloud loader as the PEOPIQ company portal. -->
+  <style>
+    #app-loader {
+      position: fixed; inset: 0; z-index: 1000;
+      display: grid; place-items: center; align-content: center; gap: 22px;
+      background: #fff;
+      transition: opacity .2s ease, visibility 0s;
+    }
+    #app-loader.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .5s ease, visibility 0s .5s; }
+    /* The line cloud, in layers from one sprite (brand/loader-sprite.png, 9 frames top to bottom): 0 the cloud
+       outline, 1 the waves, 2 the network, 3-8 the squares. The cloud floats with a blue light running along its
+       outline, the waves sway, the network draws itself left to right and the squares fly up one after another. */
+    .ldr { position: relative; width: 168px; display: grid; justify-items: center; }
+    .ldr__mark { position: relative; width: 100%; aspect-ratio: 360 / 238; animation: ldr-float 2.6s ease-in-out infinite; }
+    .ldr__l, .ldr__cloud::after {
+      position: absolute; inset: 0;
+      background: url(brand/loader-sprite.png) 0 calc(var(--f) * 100% / 8) / 100% 900% no-repeat;
+    }
+    .ldr__cloud { --f: 0; }
+    .ldr__cloud::after {
+      content: "";
+      background: linear-gradient(100deg, rgba(37, 132, 255, 0) 40%, rgba(64, 160, 255, .95) 50%, rgba(37, 132, 255, 0) 60%) 100% 0 / 300% 100% no-repeat;
+      -webkit-mask: url(brand/loader-sprite.png) 0 0 / 100% 900% no-repeat;
+              mask: url(brand/loader-sprite.png) 0 0 / 100% 900% no-repeat;
+      animation: ldr-shine 2.6s ease-in-out infinite;
+    }
+    .ldr__waves { --f: 1; animation: ldr-sway 1.3s ease-in-out infinite alternate; }
+    .ldr__net { --f: 2; animation: ldr-draw 2.6s ease-in-out infinite; }
+    .ldr__bit { transform-origin: var(--ox) var(--oy); animation: ldr-bit 2.6s cubic-bezier(.2, .8, .2, 1) var(--d) infinite both; }
+    .ldr__shadow {
+      width: 56%; height: 8px; margin-top: 4px; border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(15, 23, 42, .18), rgba(15, 23, 42, 0));
+      animation: ldr-shadow 2.6s ease-in-out infinite;
+    }
+    .ldr__name { font: 700 15px/1 "Space Grotesk", system-ui, sans-serif; letter-spacing: .32em; color: #0d0f14; margin-top: 6px; padding-left: .32em; }
+    .ldr__name small { display: block; margin-top: 6px; font-size: 8.5px; letter-spacing: .42em; color: #b9800f; text-align: center; }
+    @keyframes ldr-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    @keyframes ldr-shadow { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(.82); opacity: .55; } }
+    @keyframes ldr-shine { 0%, 10% { background-position: 100% 0; } 70%, 100% { background-position: 0 0; } }
+    @keyframes ldr-sway { from { transform: translateX(-1.6%); } to { transform: translateX(1.6%); } }
+    @keyframes ldr-draw {
+      0% { clip-path: inset(0 75.5% 0 0); opacity: 1; }
+      38%, 86% { clip-path: inset(0 0 0 0); opacity: 1; }
+      100% { clip-path: inset(0 0 0 0); opacity: 0; }
+    }
+    @keyframes ldr-bit {
+      0%, 12% { opacity: 0; transform: translate(-7%, 7%) scale(.2); }
+      34%, 84% { opacity: 1; transform: none; }
+      100% { opacity: 0; transform: translate(3%, -4%) scale(.6); }
+    }
+    @media (max-width: 560px) { .ldr { width: 136px; } }
+    @media (prefers-reduced-motion: reduce) {
+      .ldr__mark, .ldr__waves, .ldr__net, .ldr__bit, .ldr__shadow, .ldr__cloud::after { animation: none; }
+      .ldr__cloud::after { display: none; }
+    }
+    #app-loader.is-hidden *, #app-loader.is-hidden *::before, #app-loader.is-hidden *::after { animation-play-state: paused; }
+  </style>
+  <noscript><style>#app-loader { display: none; }</style></noscript>
+</head>
+<body>
+  <div id="app-loader" role="status" aria-live="polite">
+    <div class="ldr" aria-hidden="true">
+      <span class="ldr__mark">
+        <i class="ldr__l ldr__cloud"></i>
+        <i class="ldr__l ldr__waves"></i>
+        <i class="ldr__l ldr__net"></i>
+        <i class="ldr__l ldr__bit" style="--f:3;--ox:70.9%;--oy:41.7%;--d:0s"></i>
+        <i class="ldr__l ldr__bit" style="--f:4;--ox:79.4%;--oy:39.5%;--d:.09s"></i>
+        <i class="ldr__l ldr__bit" style="--f:5;--ox:87.7%;--oy:37.2%;--d:.18s"></i>
+        <i class="ldr__l ldr__bit" style="--f:6;--ox:84.4%;--oy:27%;--d:.27s"></i>
+        <i class="ldr__l ldr__bit" style="--f:7;--ox:92.2%;--oy:28.4%;--d:.36s"></i>
+        <i class="ldr__l ldr__bit" style="--f:8;--ox:94.2%;--oy:18.6%;--d:.45s"></i>
+      </span>
+      <span class="ldr__shadow"></span>
+      <span class="ldr__name">IANEL<small>TECHNOLOGIES</small></span>
+    </div>
+    <span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Loading…</span>
+  </div>
+  <app-root></app-root>
+  <!-- safety net: never leave the loader up if the app fails to start -->
+  <script>setTimeout(function () { var l = document.getElementById('app-loader'); if (l) l.classList.add('is-hidden'); }, 12000);</script>
+</body>
+</html>

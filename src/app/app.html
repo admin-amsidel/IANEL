@@ -1,0 +1,197 @@
+<div class="cursor-ring" aria-hidden="true"></div>
+<div class="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-label" aria-hidden="true">Explore</div>
+
+<!-- ============ NAV ============ -->
+<nav class="nav" [class.scrolled]="scrolled()" [class.open]="menuOpen()">
+  <a href="#top" class="logo" data-hover (click)="go($event, 'top')" aria-label="IANEL Technologies home">
+    <img src="brand/ianel-mark.webp" alt="" width="420" height="246" />
+    <span class="logo-text"><b>IANEL</b><small>Technologies</small></span>
+  </a>
+  <div class="nav-links">
+    <a href="#products" data-hover (click)="go($event, 'products')">Products</a>
+    <a href="#about" data-hover (click)="go($event, 'about')">Company</a>
+    <a href="#ecosystem" data-hover (click)="go($event, 'ecosystem')">Ecosystem</a>
+    <a href="#technologies" data-hover (click)="go($event, 'technologies')">Technologies</a>
+    <a href="#contact" data-hover (click)="go($event, 'contact')">Contact</a>
+  </div>
+  <a href="#contact" class="btn magnetic nav-cta" data-hover (click)="go($event, 'contact')"><span>Connect with us</span></a>
+  <button type="button" class="menu-btn" [attr.aria-expanded]="menuOpen()" aria-label="Menu" (click)="menuOpen.set(!menuOpen())">
+    <i></i><i></i>
+  </button>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <span class="eyebrow"><span class="pulse"></span>4 products · 1 connected ecosystem</span>
+  <h1>
+    <span class="w"><span style="animation-delay: 0.05s">Smart</span></span>
+    <span class="w"><span style="animation-delay: 0.12s">software</span></span>
+    <span class="w"><span style="animation-delay: 0.19s">that</span></span><br />
+    <span class="w"><span style="animation-delay: 0.26s"><em>moves business</em></span></span>
+    <span class="w"><span style="animation-delay: 0.33s"><em>forward.</em></span></span>
+  </h1>
+  <p class="lead">
+    IANEL Technologies builds an integrated suite of cloud products for retail, logistics, HR and services,
+    designed to simplify operations, improve productivity and accelerate growth.
+  </p>
+</header>
+
+<!-- ============ PRODUCT DIAL ============ -->
+<section class="dial-section" id="products" aria-label="Products">
+  <app-product-dial />
+</section>
+
+<!-- ============ ABOUT + ANIMATED LOGO ============ -->
+<section class="block" id="about">
+  <div class="about">
+    <div class="about-media reveal">
+      <video #logoVideo src="brand/ianel-animated.mp4" autoplay [muted]="videoMuted()" loop playsinline preload="auto" poster="brand/ianel-logo.webp"
+             aria-label="IANEL Technologies animated logo" (play)="videoPaused.set(false)" (pause)="videoPaused.set(true)"></video>
+      <div class="video-ctrls">
+        <button type="button" class="vbtn" data-hover (click)="togglePlay(logoVideo)"
+                [attr.aria-label]="videoPaused() ? 'Play animation' : 'Pause animation'" [title]="videoPaused() ? 'Play' : 'Pause'">
+          @if (videoPaused()) {
+            <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14l12-7z" fill="currentColor" /></svg>
+          } @else {
+            <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor" /></svg>
+          }
+        </button>
+        <button type="button" class="vbtn" data-hover (click)="toggleMute(logoVideo)" [attr.aria-pressed]="!videoMuted()"
+                [attr.aria-label]="videoMuted() ? 'Turn sound on' : 'Mute video'" [title]="videoMuted() ? 'Sound on' : 'Mute'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor" />
+            @if (videoMuted()) {
+              <path d="M16.5 9.5l5 5M21.5 9.5l-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            } @else {
+              <path d="M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+            }
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="about-copy reveal" data-delay=".1">
+      <span class="kicker">About IANEL</span>
+      <h2>Cloud-first products, engineered for everyday business.</h2>
+      <p>
+        IANEL Technologies is a software company building practical, connected products. We design, build and run
+        every platform in-house, from the database to the screen, so each product is fast, secure and easy to use.
+      </p>
+      <ul class="pillars">
+        <li><b>Cloud native</b><span>Hosted on AWS and Google Cloud, available anywhere.</span></li>
+        <li><b>Secure by design</b><span>Role-based access and protected business data.</span></li>
+        <li><b>Built to scale</b><span>From a single store to a multi-branch operation.</span></li>
+        <li><b>One ecosystem</b><span>Products that share people, customers and data.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ECOSYSTEM ============ -->
+<section class="block" id="ecosystem">
+  <div class="sec-head reveal">
+    <h2>Our Product Ecosystem</h2>
+    <p>An integrated suite of smart digital products designed to simplify business operations, improve productivity and accelerate growth.</p>
+  </div>
+  <div class="eco">
+    @for (p of products; track p.name; let i = $index) {
+      <article class="card tilt reveal" [attr.data-delay]="(i % 2) * 0.1" [style.--c]="p.color" data-hover>
+        <span class="glow"></span>
+        <span class="n">{{ (i + 1).toString().padStart(2, '0') }} · {{ p.industry }}</span>
+        <img class="card-logo" [src]="p.logo" [alt]="p.name + ' logo'" width="900" height="300" loading="lazy" />
+        <h3>{{ p.name }}</h3>
+        <p class="sub">{{ p.tag }}</p>
+        <p>{{ p.desc }}</p>
+        <p class="tagline">{{ p.tagline }}</p>
+        <button type="button" class="card-link" data-hover (click)="enquiry.enquire(p.name)">
+          Enquire <span aria-hidden="true">→</span>
+        </button>
+      </article>
+    }
+  </div>
+
+  <div class="positioning reveal">
+    <h3>Product family positioning</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Product</th><th>Main industry</th><th>Core purpose</th></tr>
+        </thead>
+        <tbody>
+          @for (p of products; track p.name) {
+            <tr>
+              <td><span class="dot" [style.background]="p.color"></span>{{ p.name }}</td>
+              <td>{{ p.industry }}</td>
+              <td>{{ p.purpose }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Together, these products form one integrated software ecosystem under <b>IANEL Technologies</b>.</p>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="block" id="services">
+  <div class="sec-head reveal">
+    <h2>More than products. A partner for the whole journey.</h2>
+    <p>Beyond our own platforms, we help businesses plan, build and run software that fits the way they work.</p>
+  </div>
+  <div class="services">
+    <div class="card tilt reveal" data-hover><span class="glow"></span><span class="n">01</span><span class="arrow">→</span>
+      <h3>Product engineering</h3><p>Web platforms built end to end with Java, Spring Boot and Angular, ready for real business load.</p></div>
+    <div class="card tilt reveal" data-delay=".1" data-hover><span class="glow"></span><span class="n">02</span><span class="arrow">→</span>
+      <h3>Cloud deployment</h3><p>Secure, cost-aware deployments on AWS, Google Cloud and Render, with backups and monitoring.</p></div>
+    <div class="card tilt reveal" data-delay=".2" data-hover><span class="glow"></span><span class="n">03</span><span class="arrow">→</span>
+      <h3>Custom solutions</h3><p>Integrations, dashboards and modules tailored on top of our products for your workflows.</p></div>
+  </div>
+</section>
+
+<!-- ============ TECHNOLOGIES ============ -->
+<section class="block" id="technologies">
+  <div class="sec-head reveal">
+    <h2>Technologies we use</h2>
+    <p>A proven, modern stack, chosen for reliability, security and speed.</p>
+  </div>
+  <div class="tech reveal">
+    @for (g of tech; track g.group) {
+      <div class="tech-group">
+        <h4>{{ g.group }}</h4>
+        <div class="chips">
+          @for (t of g.items; track t) { <span class="chip" data-hover>{{ t }}</span> }
+        </div>
+      </div>
+    }
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    @for (k of [0, 1]; track k) {
+      @for (t of marquee; track t) { <span>{{ t }}</span><span>·</span> }
+    }
+  </div>
+</div>
+
+<!-- ============ CONTACT ============ -->
+<section class="cta" id="contact">
+  <div class="cta-box reveal">
+    <div class="orbit" style="width: 520px; height: 520px"><i style="background: var(--accent)"></i></div>
+    <div class="orbit" style="width: 860px; height: 860px; animation-duration: 60s; animation-direction: reverse"><i style="background: var(--gold)"></i></div>
+    <app-contact />
+  </div>
+</section>
+
+<footer>
+  <div class="foot-brand">
+    <img src="brand/ianel-mark.webp" alt="" width="420" height="246" />
+    <span>© {{ year }} IANEL Technologies. All rights reserved.</span>
+  </div>
+  <div class="links">
+    @for (p of products; track p.name) {
+      <a href="#products" data-hover (click)="go($event, 'products')">{{ p.name }}</a>
+    }
+    <a href="#contact" data-hover (click)="go($event, 'contact')">Contact</a>
+  </div>
+</footer>
